@@ -303,8 +303,14 @@ lgcp.func <- function(sim.imgs, all.pars){
 #Random starting point depends on number of transects across area
 #Starting point is picked randomly in first section and then spaced systematically
 #sample.site needs to be the owin object read in from the shape file (e.g. bb.1, bb.4)
-trans.func <- function (num.trans, sample.site){
-
+trans.func <- function (num.trans, sample.site) 
+  
+{
+  #Function to simulate a given number of transect lines over a given site
+  #Random starting point depends on number of transects across area
+  #Starting point is picked randomly in first section and then spaced systematically
+  #sample.site needs to be the owin object read in from the shape file (e.g. bb.1, bb.4)
+  
   #First find which boundary points define the bottom and top apexes
   bdrys <- cbind(sample.site$bdry[[1]]$x, sample.site$bdry[[1]]$y) #boundary points in a matrix
   cent <- unlist(centroid.owin(sample.site)) #centre point of site
@@ -325,14 +331,14 @@ trans.func <- function (num.trans, sample.site){
   dist.rand <- runif(1, 0, size.secs)
   xy1 <- c(((1 - dist.rand/sw)*bots[1,1] + dist.rand/sw*bots[2,1]), ((1 - dist.rand/sw)*bots[1,2] + dist.rand/sw*bots[2,2]))
   #Points along a line equation taken from: https://math.stackexchange.com/questions/175896/finding-a-point-along-a-line-a-certain-distance-away-from-another-point
-  xystarts <- sapply(seq(2:num.trans), function (x) c(((1 - size.secs*x/sw)*xy1[1] + size.secs*x/sw*bots[2,1]), ((1 - size.secs*x/sw)*xy1[2] + size.secs*x/sw*bots[2,2]))) 
+  xystarts <- sapply(seq(2:num.trans), function (x) c(((1 - size.secs*x/(sw-dist.rand))*xy1[1] + size.secs*x/(sw-dist.rand)*bots[2,1]), ((1 - size.secs*x/(sw-dist.rand))*xy1[2] + size.secs*x/(sw-dist.rand)*bots[2,2]))) 
   xystarts <- cbind(xy1, xystarts)
   xystarts <- t(xystarts)
   
   #Fix size.secs to be along top boundary
   xy2 <- c(((1 - dist.rand/sw)*tops[1,1] + dist.rand/sw*tops[2,1]), ((1 - dist.rand/sw)*tops[1,2] + dist.rand/sw*tops[2,2]))
   #Points along a line equation taken from: https://math.stackexchange.com/questions/175896/finding-a-point-along-a-line-a-certain-distance-away-from-another-point
-  xyends <- sapply(seq(2:num.trans), function (x) c(((1 - size.secs*x/sw)*xy2[1] + size.secs*x/sw*tops[2,1]), ((1 - size.secs*x/sw)*xy2[2] + size.secs*x/sw*tops[2,2]))) 
+  xyends <- sapply(seq(2:num.trans), function (x) c(((1 - size.secs*x/(sw-dist.rand))*xy2[1] + size.secs*x/(sw-dist.rand)*tops[2,1]), ((1 - size.secs*x/(sw-dist.rand))*xy2[2] + size.secs*x/(sw-dist.rand)*tops[2,2]))) 
   xyends <- cbind(xy2, xyends)
   xyends <- t(xyends)
   
@@ -350,6 +356,7 @@ trans.func <- function (num.trans, sample.site){
   lines2 <- lapply(lines, spLines)
   
   return(lines2)
+  
 }
 
 #####################################################################################################################
