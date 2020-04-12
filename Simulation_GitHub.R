@@ -65,8 +65,8 @@ bb.4 <- rov.wins[[1]] #REF
 bb.1 <- rov.wins[[3]] #SMR
 
 #Read in parameters from spatial model
-#This reads in a list that contains beta covariate estimates, spatial range parameter estimates and spatial variance estimates
-all.pars <- readRDS("spatial_pars")
+#This reads in an object "all.pars" that is a list that contains beta covariate estimates, spatial range parameter estimates and spatial variance estimates
+load("spatial_pars.Rdata")
 
 
 #Add a depth^2 column to the covariate file
