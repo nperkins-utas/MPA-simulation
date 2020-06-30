@@ -5,7 +5,7 @@
  
  The code has been tested, but may need updating or further modification.
  
- Data files for the other sites used in the paper are also provided.
+ Data files for the other sites used in the paper are also provided in the "Other site data" folder. 
  
  For any questions regarding the data or the code, please contact Nick Perkins: Nicholas.Perkins@utas.edu.au
  
